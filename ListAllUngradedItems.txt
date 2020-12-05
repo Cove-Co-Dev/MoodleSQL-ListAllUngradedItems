@@ -1,0 +1,19 @@
+SELECT
+    courses.id AS CourseId, assignments.id AS AssignmentId,
+    grades.grader AS GraderId, students.id AS StudentId,
+    courses.fullname AS CourseName, assignments.name AS AssignmmentName,
+    CONCAT(students.firstname, " ", students.lastname) AS StudentName,
+    CONCAT(graders.firstname, " ", graders.lastname) AS GraderName,
+    grades.grade, submissions.status
+FROM mdl_course courses
+LEFT JOIN mdl_assign assignments ON courses.id = assignments.course
+LEFT JOIN mdl_assign_user_mapping userMapping ON assignments.id = userMapping.assignment
+LEFT JOIN mdl_user students ON userMapping.userid = students.id
+LEFT JOIN mdl_assign_grades grades ON grades.assignment = assignments.id AND grades.userid = students.id
+LEFT JOIN mdl_user graders ON graders.id = grades.grader
+LEFT JOIN mdl_assign_submission submissions ON submissions.assignment = assignments.id AND submissions.userid = students.id
+WHERE
+    courses.fullname LIKE "%Replace With Course Name%"
+    AND assignments.name LIKE "%Replace With Assignment Name%"
+    AND submissions.status = "submitted"
+    AND grades.grade < 0
