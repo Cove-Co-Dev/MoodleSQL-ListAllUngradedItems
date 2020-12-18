@@ -1,7 +1,8 @@
-SELECT
+SELECT DISTINCT
     courses.id AS CourseId, assignments.id AS AssignmentId,
     grades.grader AS GraderId, students.id AS StudentId,
-    courses.fullname AS CourseName, assignments.name AS AssignmmentName,
+    courses.shortname, courses.fullname AS CourseName,
+    assignments.name AS AssignmmentName,
     CONCAT(students.firstname, " ", students.lastname) AS StudentName,
     CONCAT(graders.firstname, " ", graders.lastname) AS GraderName,
     grades.grade, submissions.status
@@ -13,7 +14,8 @@ LEFT JOIN mdl_assign_grades grades ON grades.assignment = assignments.id AND gra
 LEFT JOIN mdl_user graders ON graders.id = grades.grader
 LEFT JOIN mdl_assign_submission submissions ON submissions.assignment = assignments.id AND submissions.userid = students.id
 WHERE
-    courses.fullname LIKE "%Replace With Course Name%"
+    courses.shortname LIKE "%Replace Width Company Name%"
+    AND courses.fullname LIKE "%Replace With Course Name%"
     AND assignments.name LIKE "%Replace With Assignment Name%"
     AND submissions.status = "submitted"
     AND grades.grade < 0
