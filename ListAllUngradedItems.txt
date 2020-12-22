@@ -19,3 +19,4 @@ WHERE
     AND assignments.name LIKE "%Replace With Assignment Name%"
     AND submissions.status = "submitted"
     AND grades.grade < 0
+    AND students.suspended = 0
