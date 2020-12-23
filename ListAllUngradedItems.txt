@@ -13,6 +13,8 @@ LEFT JOIN mdl_user students ON userMapping.userid = students.id
 LEFT JOIN mdl_assign_grades grades ON grades.assignment = assignments.id AND grades.userid = students.id
 LEFT JOIN mdl_user graders ON graders.id = grades.grader
 LEFT JOIN mdl_assign_submission submissions ON submissions.assignment = assignments.id AND submissions.userid = students.id
+LEFT JOIN mdl_role_assignments roles ON roles.userid = students.id
+LEFT JOIN mdl_user_enrolments enrolments ON students.id = enrolments.userid
 WHERE
     courses.shortname LIKE "%Replace Width Company Name%"
     AND courses.fullname LIKE "%Replace With Course Name%"
@@ -20,3 +22,8 @@ WHERE
     AND submissions.status = "submitted"
     AND grades.grade < 0
     AND students.suspended = 0
+    AND roles.roleid = 5
+    AND students.deleted = 0
+    AND (students.description IS NULL OR students.description = "")
+    AND enrolments.status = 1
+    AND submissions.latest = 1
